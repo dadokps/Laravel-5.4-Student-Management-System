@@ -1,7 +1,8 @@
 @extends('layouts.master')
 
 @section('content')
-
+@include('courses.popup.academic')
+@include('courses.popup.program')
     <div class="row">
         <div class="col-lg-12">
             <h3 class="page-header"><i class="fa fa-file-text-o"> Courses</i></h3>
@@ -25,10 +26,13 @@
                                 <label for="academic-year">Academic Year</label>
                                 <div class="input-group">
                                     <select class="form-control" name="academic_id" id="academic_id">
-
+                                        <option value="">Select</option>
+                                        @foreach($academics as $key => $academic)
+                                            <option value="{{ $academic->academic_id }}">{{ $academic->academic }}</option>
+                                        @endforeach
                                     </select>
                                     <div class="input-group-addon">
-                                        <span class="fa fa-plus"></span>
+                                        <span data-toggle="modal" data-target="#academic-year-show" class="fa fa-plus"></span>
                                     </div>
                                 </div>
                             </div>
@@ -36,10 +40,13 @@
                                 <label for="program">Course</label>
                                 <div class="input-group">
                                     <select class="form-control" name="program_id" id="program_id">
-
+                                        <option class="text-center" value="">Select</option>
+                                        @foreach($programs as $key => $program)
+                                            <option value="{{ $program->program_id }}">{{ $program->program }}</option>
+                                        @endforeach
                                     </select>
                                     <div class="input-group-addon">
-                                        <span class="fa fa-plus"></span>
+                                        <span data-toggle="modal" data-target="#program-show" class="fa fa-plus"></span>
                                     </div>
                                 </div>
                             </div>
@@ -133,6 +140,30 @@
         $('#start_date, #end_date').datepicker({
             changeYear:true,
             changeMonth:true
+        });
+
+        $('.btn-save-academic').on('click', function () {
+            var academic = $('#new-academic').val();
+            $.post("{{route('postInsertAcademic')}}", { academic:academic }, function(data){
+                $('#academic_id').append($("<option>",{
+                    value : data.academic_id,
+                    text  : data.academic
+                }));
+                $('#new-academic').val("");
+            });
+        });
+
+        $('.btn-save-program').on('click', function () {
+            var program = $('#program').val();
+            var description = $('#description').val();
+            $.post("{{route('postInsertProgram')}}", { program:program, description:description }, function(data){
+                $('#program_id').append($("<option>",{
+                    value : data.program_id,
+                    text  : data.program
+                }));
+                $('#program').val("");
+                $('#description').val("");
+            });
         });
     </script>
 @endsection
