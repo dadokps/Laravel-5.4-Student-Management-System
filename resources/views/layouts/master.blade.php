@@ -51,6 +51,9 @@
 
     <!--main content start-->
     <section id="main-content">
+        <div class="wrapper">
+            @yield('content')
+        </div>
     </section>
 </section>
 
@@ -95,6 +98,8 @@
 {!! Html::script('js/sparklines.js') !!}
 {!! Html::script('js/charts.js') !!}
 {!! Html::script('js/jquery.slimscroll.min.js') !!}
+
+@yield('script')
 <script>
 
     //knob
