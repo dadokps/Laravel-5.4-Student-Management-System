@@ -34,5 +34,7 @@ Route::group(['middleware' => ['authen', 'roles'], 'roles' => ['admin']], functi
     Route::post('/manage/course/insert-batch', ['as' => 'postInsertBatch', 'uses' => 'CourseController@postInsertBatch']);
     Route::post('/manage/course/insert-group', ['as' => 'postInsertGroup', 'uses' => 'CourseController@postInsertGroup']);
     Route::post('/manage/course/create-class', ['as' => 'postCreateClass', 'uses' => 'CourseController@postCreateClass']);
+    Route::get('/manage/course/classInfo', ['as' => 'showClassInfo', 'uses' => 'CourseController@showClassInfo']);
+
 
 });

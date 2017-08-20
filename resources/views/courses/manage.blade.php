@@ -145,6 +145,14 @@
                         <button type="submit" class="btn btn-default btn-sm">Create Course</button>
                     </div>
                 </form>
+
+                <!-- Class Information -->
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Class Information</div>
+                    <div class="panel-body" id="add_class_info"></div>
+                </div>
+
             </section>
         </div>
     </div>
@@ -153,6 +161,9 @@
 
 @section('script')
     <script>
+
+
+
         $('#start_date, #end_date').datepicker({
             changeYear:true,
             changeMonth:true,
@@ -302,10 +313,20 @@
             var url = $(this).attr('action');
 
             $.post(url, data, function (data) {
-                console.log(data);
+
+                showClassInfo(data.academic_id);
             });
             $(this).trigger('reset');
         });
+
+        function showClassInfo(academic_id)
+        {
+            $.get("{{ route('showClassInfo') }}", {academic_id:academic_id}, function (data) {
+                $('#add_class_info').empty().append(data);
+            });
+        }
+
+        showClassInfo($('#academic_id').val());
 
     </script>
 @endsection

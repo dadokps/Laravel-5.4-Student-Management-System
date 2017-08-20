@@ -143,4 +143,22 @@ class CourseController extends Controller
             return response(MyClass::create($request->all()));
         }
     }
+
+    public function ClassInfo()
+    {
+        return MyClass::join('academics', 'academics.academic_id', '=', 'classes.academic_id')
+            ->join('levels', 'levels.level_id', '=', 'classes.level_id')
+            ->join('programs', 'programs.program_id', '=', 'levels.program_id')
+            ->join('shifts', 'shifts.shift_id', '=', 'classes.shift_id')
+            ->join('times', 'times.time_id', '=', 'classes.time_id')
+            ->join('batches', 'batches.batch_id', '=', 'classes.batch_id')
+            ->join('groups', 'groups.group_id', '=', 'classes.group_id')
+            ->orderBy('classes.class_id', 'DESC');
+    }
+
+    public function showClassInfo(Request $request)
+    {
+        $classes = $this->ClassInfo()->get();
+        return view('class.classInfo', compact('classes'));
+    }
 }
