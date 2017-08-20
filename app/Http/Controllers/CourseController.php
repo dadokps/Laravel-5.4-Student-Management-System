@@ -161,4 +161,28 @@ class CourseController extends Controller
         $classes = $this->ClassInfo()->get();
         return view('class.classInfo', compact('classes'));
     }
+
+    public function deleteClass(Request $request)
+    {
+        if($request->ajax())
+        {
+            MyClass::destroy($request->class_id);
+        }
+    }
+
+    public function editClass(Request $request)
+    {
+        if($request->ajax())
+        {
+            return response(MyClass::find($request->class_id));
+        }
+    }
+
+    public function updateClassInfo(Request $request)
+    {
+        if($request->ajax())
+        {
+            return response(MyClass::updateOrCreate(['class_id' => $request->class_id], $request->all()));
+        }
+    }
 }

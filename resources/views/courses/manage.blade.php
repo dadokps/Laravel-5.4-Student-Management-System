@@ -26,6 +26,7 @@
                 </header>
                 <form action="{{ route('postCreateClass') }}" method="POST" class="form-horizontal" id="form_create_class">
                     <input type="hidden" name="active" id="active" value="1">
+                    <input type="hidden" name="class_id" id="class_id">
                     <div class="panel-body">
                         <div class="form-group">
                             <div class="col-sm-3">
@@ -124,7 +125,7 @@
                             <div class="col-sm-3">
                                 <label for="start_date">Start Date</label>
                                 <div class="input-group">
-                                    <input type="text" name="start_date" id="start_date" class="form-control" />
+                                    <input required type="text" name="start_date" id="start_date" class="form-control" />
                                     <div class="input-group-addon">
                                         <span class="fa fa-calendar"></span>
                                     </div>
@@ -133,7 +134,7 @@
                             <div class="col-sm-3">
                                 <label for="end_date">End Date</label>
                                 <div class="input-group">
-                                    <input type="text" name="end_date" id="end_date" class="form-control" />
+                                    <input required type="text" name="end_date" id="end_date" class="form-control" />
                                     <div class="input-group-addon">
                                         <span class="fa fa-calendar"></span>
                                     </div>
@@ -143,6 +144,7 @@
                     </div>
                     <div class="panel-footer">
                         <button type="submit" class="btn btn-default btn-sm">Create Course</button>
+                        <button type="submit" class="btn btn-success btn-sm btn-update-class">Update Course</button>
                     </div>
                 </form>
 
@@ -323,10 +325,68 @@
         {
             $.get("{{ route('showClassInfo') }}", {academic_id:academic_id}, function (data) {
                 $('#add_class_info').empty().append(data);
+                mergeCommonRows($("#table_class_info"));
             });
         }
 
         showClassInfo($('#academic_id').val());
 
+        //Merge Common Rows Function
+        function mergeCommonRows(table) {
+
+            var firstColumnBrakes = [];
+
+            $.each(table.find('th'), function (i) {
+
+                var previous = null, cellToExtend = null, rowspan = 1;
+
+                table.find("td:nth-child(" + i +")").each(function (index, e) {
+
+                    var jthis = $(this), content = jthis.text();
+                    if(previous === content && content !== "" && $.inArray(index, firstColumnBrakes) === -1) {
+                        jthis.addClass('hidden');
+                        cellToExtend.attr("rowspan", (rowspan = rowspan + 1));
+                    } else {
+                        if(i === 1) firstColumnBrakes.push(index);
+                        rowspan = 1;
+                        previous = content;
+                        cellToExtend = jthis;
+                    }
+                });
+            });
+            $('td.hidden').remove();
+        }
+
+        $(document).on('click', '.delete_class', function (e) {
+            class_id = $(this).val();
+            $.post('{{ route('deleteClass') }}', {class_id:class_id}, function (data) {
+                //showClassInfo($('#academic_id').val());
+            });
+        });
+
+        $(document).on('click', '#edit_class', function (data) {
+            var class_id = $(this).data('id');
+            $.get("{{ route('editClass') }}", {class_id:class_id}, function (data) {
+                $('#academic_id').val(data.academic_id);
+                $('#level_id').val(data.level_id);
+                $('#shift_id').val(data.shift_id);
+                $('#time_id').val(data.time_id);
+                $('#group_id').val(data.group_id);
+                $('#batch_id').val(data.batch_id);
+                $('#start_date').val(data.start_date);
+                $('#end_date').val(data.end_date);
+                $('#class_id').val(data.class_id);
+            });
+        });
+
+        $('.btn-update-class').on('click', function (e) {
+
+            e.preventDefault();
+            var data = $('#form_create_class').serialize();
+            $.post('{{ route('updateClassInfo') }}', data, function (data) {
+                showClassInfo(data.academic_id);
+            });
+
+        });
     </script>
 @endsection

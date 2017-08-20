@@ -35,6 +35,8 @@ Route::group(['middleware' => ['authen', 'roles'], 'roles' => ['admin']], functi
     Route::post('/manage/course/insert-group', ['as' => 'postInsertGroup', 'uses' => 'CourseController@postInsertGroup']);
     Route::post('/manage/course/create-class', ['as' => 'postCreateClass', 'uses' => 'CourseController@postCreateClass']);
     Route::get('/manage/course/classInfo', ['as' => 'showClassInfo', 'uses' => 'CourseController@showClassInfo']);
-
+    Route::post('/manage/course/class-delete', ['as' => 'deleteClass', 'uses' => 'CourseController@deleteClass']);
+    Route::get('/manage/course/class-edit', ['as' => 'editClass', 'uses' => 'CourseController@editClass']);
+    Route::post('/manage/course/class-update', ['as' => 'updateClassInfo', 'uses' => 'CourseController@updateClassInfo']);
 
 });

@@ -26,7 +26,7 @@
                 <td>{{ $class->shift }}</td>
                 <td>{{ $class->time }}</td>
                 <td class="academic_details">
-                    <a href="#" data-id="{{ $class->class_id }}">
+                    <a href="#" data-id="{{ $class->class_id }}" id="edit_class">
                         Program: {{ $class->program }} /
                         Level:   {{ $class->level }} /
                         Shift:   {{ $class->shift }} /
@@ -38,7 +38,7 @@
                     </a>
                 </td>
                 <td class="text-center">
-                    <button value="{{ $class->class_id }}" class="btn btn-danger btn-sm">Delete</button>
+                    <button value="{{ $class->class_id }}" class="btn btn-danger btn-sm delete_class">Delete</button>
                 </td>
             </tr>
         @endforeach
