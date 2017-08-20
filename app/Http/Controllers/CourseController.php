@@ -7,6 +7,7 @@ use App\Academic;
 use App\Program;
 use App\Level;
 use App\Shift;
+use App\Time;
 
 class CourseController extends Controller
 {
@@ -78,6 +79,18 @@ class CourseController extends Controller
         if($request->ajax())
         {
             return response(Shift::create($request->all()));
+        }
+    }
+
+    public function postInsertTime(Request $request)
+    {
+        $this->validate($request, [
+            'time' => 'required',
+        ]);
+
+        if($request->ajax())
+        {
+            return response(Time::create($request->all()));
         }
     }
 }

@@ -30,5 +30,5 @@ Route::group(['middleware' => ['authen', 'roles'], 'roles' => ['admin']], functi
     Route::post('/manage/course/insert-level', ['as' => 'postInsertLevel', 'uses' => 'CourseController@postInsertLevel']);
     Route::get('/manage/course/showLevel', ['as' => 'showLevel', 'uses' => 'CourseController@showLevel']);
     Route::post('/manage/course/insert-shift', ['as' => 'postInsertShift', 'uses' => 'CourseController@postInsertShift']);
-
+    Route::post('/manage/course/insert-time', ['as' => 'postInsertTime', 'uses' => 'CourseController@postInsertTime']);
 });
