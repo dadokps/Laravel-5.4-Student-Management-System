@@ -3,6 +3,7 @@
 @section('content')
 @include('courses.popup.academic')
 @include('courses.popup.program')
+@include('courses.popup.level')
     <div class="row">
         <div class="col-lg-12">
             <h3 class="page-header"><i class="fa fa-file-text-o"> Courses</i></h3>
@@ -19,7 +20,7 @@
                 <header class="panel-heading">
                     Manage Course
                 </header>
-                <form class="form-horizontal">
+                <form class="form-horizontal" id="form_create_class">
                     <div class="panel-body">
                         <div class="form-group">
                             <div class="col-sm-3">
@@ -53,11 +54,9 @@
                             <div class="col-sm-3">
                                 <label for="level">Level</label>
                                 <div class="input-group">
-                                    <select class="form-control" name="level_id" id="level_id">
-
-                                    </select>
+                                    <select class="form-control" name="level_id" id="level_id"></select>
                                     <div class="input-group-addon">
-                                        <span class="fa fa-plus"></span>
+                                        <span id="add_more_level" class="fa fa-plus" data-toggle="modal" data-target="#level-show"></span>
                                     </div>
                                 </div>
                             </div>
@@ -142,27 +141,79 @@
             changeMonth:true
         });
 
-        $('.btn-save-academic').on('click', function () {
-            var academic = $('#new-academic').val();
-            $.post("{{route('postInsertAcademic')}}", { academic:academic }, function(data){
+        $('#form_academic_year_create').on('submit', function (e) {
+
+            e.preventDefault();
+            var data = $(this).serialize();
+            var url = $(this).attr('action');
+
+            $.post(url, data, function (data) {
                 $('#academic_id').append($("<option>",{
                     value : data.academic_id,
                     text  : data.academic
                 }));
-                $('#new-academic').val("");
+
+                $('#new_academic_year').val("");
             });
         });
 
-        $('.btn-save-program').on('click', function () {
-            var program = $('#program').val();
-            var description = $('#description').val();
-            $.post("{{route('postInsertProgram')}}", { program:program, description:description }, function(data){
-                $('#program_id').append($("<option>",{
+        $('#form_program_create').on('submit', function (e) {
+
+            e.preventDefault();
+            var data = $(this).serialize();
+            var url = $(this).attr('action');
+
+            $.post(url, data, function (data) {
+
+                $('#form_create_class #program_id, #form_level_create #program_id').append($("<option>",{
                     value : data.program_id,
                     text  : data.program
                 }));
                 $('#program').val("");
-                $('#description').val("");
+                $('#program_description').val("");
+
+            }) .fail(function(xhr, status, error) {
+
+                var errors = JSON.parse(xhr.responseText);
+                var programError = errors.program;
+                var descriptionError = errors.description;
+
+                if(errors) {
+                    $('.errors').removeClass('hidden');
+                    $('.errors').html(programError).append('<br />').append(descriptionError);
+                }
+            });
+        });
+
+        $('#form_level_create').on('submit', function (e) {
+
+            e.preventDefault();
+            var data = $(this).serialize();
+            var url = $(this).attr('action');
+
+            $.post(url, data, function (data) {
+                $('#level_id').append($("<option>", {
+                    value : data.level_id,
+                    text  : data.level
+                }));
+            });
+            $('#level').val("");
+            $('#level_description').val("");
+        });
+
+        $('#form_create_class #program_id').on('change', function (e) {
+
+            var program_id = $(this).val();
+            var level = $('#level_id');
+            $(level).empty();
+
+            $.get("{{ route('showLevel') }}", {program_id:program_id}, function (data) {
+                $.each(data, function (i, l) {
+                    $(level).append($("<option>", {
+                        value : l.level_id,
+                        text  : l.level
+                    }));
+                });
             });
         });
     </script>
