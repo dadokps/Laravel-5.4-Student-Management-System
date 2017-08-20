@@ -24,7 +24,8 @@
                 <header class="panel-heading">
                     Manage Course
                 </header>
-                <form class="form-horizontal" id="form_create_class">
+                <form action="{{ route('postCreateClass') }}" method="POST" class="form-horizontal" id="form_create_class">
+                    <input type="hidden" name="active" id="active" value="1">
                     <div class="panel-body">
                         <div class="form-group">
                             <div class="col-sm-3">
@@ -154,7 +155,8 @@
     <script>
         $('#start_date, #end_date').datepicker({
             changeYear:true,
-            changeMonth:true
+            changeMonth:true,
+            dateFormat: 'yy-mm-dd'
         });
 
         $('#form_academic_year_create').on('submit', function (e) {
@@ -289,6 +291,18 @@
                     value : data.group_id,
                     text  : data.group
                 }));
+            });
+            $(this).trigger('reset');
+        });
+
+        $('#form_create_class').on('submit', function (e) {
+
+            e.preventDefault();
+            var data = $(this).serialize();
+            var url = $(this).attr('action');
+
+            $.post(url, data, function (data) {
+                console.log(data);
             });
             $(this).trigger('reset');
         });

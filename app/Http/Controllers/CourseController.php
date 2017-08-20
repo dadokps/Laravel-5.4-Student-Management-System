@@ -10,6 +10,7 @@ use App\Shift;
 use App\Time;
 use App\Batch;
 use App\Group;
+use App\MyClass;
 
 class CourseController extends Controller
 {
@@ -120,6 +121,26 @@ class CourseController extends Controller
         if($request->ajax())
         {
             return response(Group::create($request->all()));
+        }
+    }
+
+    public function postCreateClass(Request $request)
+    {
+        $this->validate($request, [
+            'academic_id' => 'required',
+            'level_id' => 'required',
+            'shift_id' => 'required',
+            'time_id' => 'required',
+            'group_id' => 'required',
+            'batch_id' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'active' => 'required',
+        ]);
+
+        if($request->ajax())
+        {
+            return response(MyClass::create($request->all()));
         }
     }
 }
