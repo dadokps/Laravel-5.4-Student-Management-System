@@ -6,6 +6,8 @@
 @include('courses.popup.level')
 @include('courses.popup.shift')
 @include('courses.popup.time')
+@include('courses.popup.batch')
+@include('courses.popup.group')
     <div class="row">
         <div class="col-lg-12">
             <h3 class="page-header"><i class="fa fa-file-text-o"> Courses</i></h3>
@@ -80,6 +82,10 @@
                                 <label for="time">Time</label>
                                 <div class="input-group">
                                     <select class="form-control" name="time_id" id="time_id">
+                                        <option class="text-center" value="">Select</option>
+                                        @foreach($times as $key => $time)
+                                            <option value="{{ $time->time_id }}">{{ $time->time }}</option>
+                                        @endforeach
                                     </select>
                                     <div class="input-group-addon">
                                         <span data-toggle="modal" data-target="#time-show" class="fa fa-plus"></span>
@@ -90,10 +96,13 @@
                                 <label for="batch">Batch</label>
                                 <div class="input-group">
                                     <select class="form-control" name="batch_id" id="batch_id">
-
+                                        <option class="text-center" value="">Select</option>
+                                        @foreach($batches as $key => $batch)
+                                            <option value="{{ $batch->batch_id }}">{{ $batch->batch }}</option>
+                                        @endforeach
                                     </select>
                                     <div class="input-group-addon">
-                                        <span class="fa fa-plus"></span>
+                                        <span data-toggle="modal" data-target="#batch-show" class="fa fa-plus"></span>
                                     </div>
                                 </div>
                             </div>
@@ -101,10 +110,13 @@
                                 <label for="group">Group</label>
                                 <div class="input-group">
                                     <select class="form-control" name="group_id" id="group_id">
-
+                                        <option class="text-center" value="">Select</option>
+                                        @foreach($groups as $key => $group)
+                                            <option value="{{ $group->group_id }}">{{ $group->group }}</option>
+                                        @endforeach
                                     </select>
                                     <div class="input-group-addon">
-                                        <span class="fa fa-plus"></span>
+                                        <span class="fa fa-plus" data-toggle="modal" data-target="#group-show"></span>
                                     </div>
                                 </div>
                             </div>
@@ -250,5 +262,36 @@
             });
             $(this).trigger('reset');
         });
+
+        $('#form_batch_create').on('submit', function (e) {
+
+            e.preventDefault();
+            var data = $(this).serialize();
+            var url = $(this).attr('action');
+
+            $.post(url, data, function (data) {
+                $('#batch_id').append($("<option>", {
+                    value : data.batch_id,
+                    text  : data.batch
+                }));
+            });
+            $(this).trigger('reset');
+        });
+
+        $('#form_group_create').on('submit', function (e) {
+
+            e.preventDefault();
+            var data = $(this).serialize();
+            var url = $(this).attr('action');
+
+            $.post(url, data, function (data) {
+                $('#group_id').append($("<option>", {
+                    value : data.group_id,
+                    text  : data.group
+                }));
+            });
+            $(this).trigger('reset');
+        });
+
     </script>
 @endsection
