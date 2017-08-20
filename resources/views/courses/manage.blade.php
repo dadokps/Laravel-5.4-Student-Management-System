@@ -4,6 +4,7 @@
 @include('courses.popup.academic')
 @include('courses.popup.program')
 @include('courses.popup.level')
+@include('courses.popup.shift')
     <div class="row">
         <div class="col-lg-12">
             <h3 class="page-header"><i class="fa fa-file-text-o"> Courses</i></h3>
@@ -64,10 +65,13 @@
                                 <label for="shift">Shift</label>
                                 <div class="input-group">
                                     <select class="form-control" name="shift_id" id="shift_id">
-
+                                        <option class="text-center" value="">Select</option>
+                                        @foreach($shifts as $key => $shift)
+                                            <option value="{{ $shift->shift_id }}">{{ $shift->shift }}</option>
+                                        @endforeach
                                     </select>
                                     <div class="input-group-addon">
-                                        <span class="fa fa-plus"></span>
+                                        <span data-toggle="modal" data-target="#shift-show" class="fa fa-plus"></span>
                                     </div>
                                 </div>
                             </div>
@@ -216,5 +220,21 @@
                 });
             });
         });
+
+        $('#form_shift_create').on('submit', function (e) {
+
+            e.preventDefault();
+            var data = $(this).serialize();
+            var url = $(this).attr('action');
+
+            $.post(url, data, function (data) {
+                $('#shift_id').append($("<option>", {
+                    value : data.shift_id,
+                    text  : data.shift
+                }));
+            });
+            $(this).trigger('reset');
+        });
+
     </script>
 @endsection

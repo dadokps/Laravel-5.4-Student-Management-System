@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Academic;
 use App\Program;
 use App\Level;
+use App\Shift;
 
 class CourseController extends Controller
 {
@@ -18,7 +19,8 @@ class CourseController extends Controller
     {
         $academics = Academic::orderBy('academic_id', "DESC")->get();
         $programs  = Program::all();
-        return view('courses.manage', compact('programs', 'academics'));
+        $shifts    = Shift::all();
+        return view('courses.manage', compact('programs', 'academics', 'shifts'));
     }
 
     public function postInsertAcademic(Request $request)
@@ -64,6 +66,18 @@ class CourseController extends Controller
         if($request->ajax())
         {
             return response(Level::where('program_id', $request->program_id)->get());
+        }
+    }
+
+    public function postInsertShift(Request $request)
+    {
+        $this->validate($request, [
+            'shift' => 'required',
+        ]);
+
+        if($request->ajax())
+        {
+            return response(Shift::create($request->all()));
         }
     }
 }
