@@ -164,8 +164,6 @@
 @section('script')
     <script>
 
-
-
         $('#start_date, #end_date').datepicker({
             changeYear:true,
             changeMonth:true,
