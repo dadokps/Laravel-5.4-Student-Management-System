@@ -15,7 +15,7 @@
             <th>Shift</th>
             <th>Time</th>
             <th>Academic Detail</th>
-            <th>Action</th>
+            <th hidden="hidden">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -37,7 +37,7 @@
                         End Date:   {{ date("d-M-y", strtotime($class->end_date)) }}  /
                     </a>
                 </td>
-                <td class="text-center">
+                <td class="text-center" id="hidden">
                     <button value="{{ $class->class_id }}" class="btn btn-danger btn-sm delete_class">Delete</button>
                 </td>
             </tr>

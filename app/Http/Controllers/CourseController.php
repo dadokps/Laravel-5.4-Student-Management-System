@@ -27,6 +27,7 @@ class CourseController extends Controller
         $times      = Time::all();
         $batches    = Batch::all();
         $groups     = Group::all();
+
         return view('courses.manage', compact('programs', 'academics', 'shifts', 'times', 'batches', 'groups'));
     }
 
