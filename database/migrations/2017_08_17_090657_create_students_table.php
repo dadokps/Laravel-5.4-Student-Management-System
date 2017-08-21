@@ -18,9 +18,10 @@ class CreateStudentsTable extends Migration
             $table->string('first_name', 20);
             $table->string('last_name', 20);
             $table->boolean('sex');
-            $table->date('dob');
-            $table->string('100')->nullable();
-            $table->string('status');
+            $table->date('dob')->nullable();;
+            $table->string('email', 50)->unique()->nullable();
+            $table->string('rac', 100)->nullable();
+            $table->tinyInteger('status')->nullable();
             $table->string('nationality', 50)->nullable();
             $table->string('national_card', 50)->nullable();
             $table->string('passport', 50)->nullable();

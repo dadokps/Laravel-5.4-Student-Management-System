@@ -93,187 +93,196 @@
                     <div class="panel-body" style="padding-bottom: 4px;">
                         <form action="{{ route('postStudentRegister') }}" method="POST" id="form_create_student">
                             {!! csrf_field() !!}
-                        <input type="hidden" name="class_id" id="class_id">
-                        <div class="row">
-                            <div class="col-lg-9 col-md-9 col-sm-9">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="firstname">First Name</label>
-                                        <input type="text" name="first_name" id="first_name" class="form-control" required>
+                            <input type="hidden" name="class_id" id="class_id">
+                            <input type="hidden" name="user_id" id="user_id" value="{{ Auth::id() }}">
+                            <input type="hidden" name="dateregistered" id="dateregistered" value="{{ date('Y-m-d') }}">
+
+                            <div class="row">
+                                <div class="col-lg-9 col-md-9 col-sm-9">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="firstname">First Name</label>
+                                            <input type="text" name="first_name" id="first_name" class="form-control" required>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="lastname">Last Name</label>
-                                        <input type="text" name="lastname" id="lastname" class="form-control" required>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="lastname">Last Name</label>
+                                            <input type="text" name="last_name" id="last_name" class="form-control" required>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <fieldset>
-                                            <legend>Sex</legend>
-                                            <table style="width: 100%; margin-top: -14px;">
-                                                <tr style="border-bottom: 1px solid #ccc;">
-                                                    <td>
-                                                        <label><input type="radio" name="sex" id="sex" value="0"
-                                                                      required/>Male</label>
-                                                    </td>
-                                                    <td>
-                                                        <label><input type="radio" name="sex" id="sex" value="1"
-                                                                      required/>Female</label>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </fieldset>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <fieldset>
+                                                <legend>Sex</legend>
+                                                <table style="width: 100%; margin-top: -14px;">
+                                                    <tr style="border-bottom: 1px solid #ccc;">
+                                                        <td>
+                                                            <label><input type="radio" name="sex" id="sex" value="0"
+                                                                          required/>Male</label>
+                                                        </td>
+                                                        <td>
+                                                            <label><input type="radio" name="sex" id="sex" value="1"
+                                                                          required/>Female</label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </fieldset>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="dateOfBirth">Birth Date</label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar dateOfBirth"></i>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="dateOfBirth">Birth Date</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar dateOfBirth"></i>
+                                                </div>
+                                                <input type="text" name="dateOfBirth" id="dateOfBirth" class="form-control"
+                                                       placeholder="yyyy/mm/dd" required/>
                                             </div>
-                                            <input type="text" name="dateOfBirth" id="dateOfBirth" class="form-control"
-                                                   placeholder="yyyy/mm/dd" required/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="national_card">National Card</label>
+                                            <input type="text" name="national_card" id="national_card" class="form-control"
+                                                   required/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <fieldset>
+                                                <legend>Status</legend>
+                                                <table style="width: 100%; margin-top: -14px;">
+                                                    <tr style="border-bottom: 1px solid #ccc;">
+                                                        <td>
+                                                            <label><input type="radio" name="status" id="status" value="0"
+                                                                          required checked/>Single</label>
+                                                        </td>
+                                                        <td>
+                                                            <label><input type="radio" name="status" id="status" value="1"
+                                                                          required/>Married</label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="nationality">Nationality</label>
+                                            <input type="text" name="nationality" id="nationality" class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="rac">Rac</label>
+                                            <input type="text" name="rac" id="rac" class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="passport">Passport</label>
+                                            <input type="text" name="passport" id="passport" class="form-control" required/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="phone">Phone</label>
+                                            <input type="text" name="phone" id="phone" class="form-control" required/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label for="email">Email</label>
+                                            <input type="email" name="email" id="email" class="form-control" required/>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="national_card">National Card</label>
-                                        <input type="text" name="national_card" id="national_card" class="form-control"
-                                               required/>
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <div class="form-group form-group-login">
+                                        <table style="margin: 0 auto;">
+                                            <thead>
+                                            <tr class="info">
+                                                <th class="student-id">{{ sprintf('%05d', $student_id + 1) }}</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td class="photo">
+                                                    {!! Html::image('photo/example.png', null, ['class' => 'student-photo', 'id' => 'showPhoto']) !!}
+                                                    <input type="file" name="photo" id="photo"
+                                                           accept="image/x-png, image/png, image/jpg, image/jpeg"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: center; background: #ddd">
+                                                    <input type="button" name="browse_file" id="browse_file"
+                                                           class="form-control btn-browse" value="Browse"/>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <fieldset>
-                                            <legend>Status</legend>
-                                            <table style="width: 100%; margin-top: -14px;">
-                                                <tr style="border-bottom: 1px solid #ccc;">
-                                                    <td>
-                                                        <label><input type="radio" name="status" id="status" value="0"
-                                                                      required checked/>Single</label>
-                                                    </td>
-                                                    <td>
-                                                        <label><input type="radio" name="status" id="status" value="1"
-                                                                      required/>Married</label>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </fieldset>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="nationality">Nationality</label>
-                                        <input type="text" name="nationality" id="nationality" class="form-control"/>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="rac">Rac</label>
-                                        <input type="text" name="rac" id="rac" class="form-control"/>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="passport">Passport</label>
-                                        <input type="text" name="passport" id="passport" class="form-control" required/>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="phone">Phone</label>
-                                        <input type="text" name="phone" id="phone" class="form-control" required/>
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input type="email" name="email" id="email" class="form-control" required/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-3">
-                                <div class="form-group form-group-login">
-                                    <table style="margin: 0 auto;">
-                                        <thead>
-                                        <tr class="info">
-                                            <th class="student-id">ID</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td class="photo">
-                                                {!! Html::image('photo/example.png', null, ['class' => 'student-photo', 'id' => 'showPhoto']) !!}
-                                                <input type="file" name="photo" id="photo"
-                                                       accept="image/x-png, image/png, image/jpg, image/jpeg"/>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align: center; background: #ddd">
-                                                <input type="button" name="browse_file" id="browse_file"
-                                                       class="form-control btn-browse" value="Browse"/>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <br/>
-                    <div class="panel-heading" style="margin-top: -20px;">
-                        <b><i class="fa fa-apple"></i> Address</b>
-                    </div>
-                    <div class="panel-body" style="padding-bottom: 10px; margin-top: 0;">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="village">Village</label>
-                                    <input type="text" name="village" id="village" class="form-control" />
+                        <br/>
+                        <div class="panel-heading" style="margin-top: -20px;">
+                            <b><i class="fa fa-apple"></i> Address</b>
+                        </div>
+                        <div class="panel-body" style="padding-bottom: 10px; margin-top: 0;">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="village">Village</label>
+                                        <input type="text" name="village" id="village" class="form-control" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="commune">Commune</label>
-                                    <input type="text" name="commune" id="commune" class="form-control" />
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="commune">Commune</label>
+                                        <input type="text" name="commune" id="commune" class="form-control" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="district">District</label>
-                                    <input type="text" name="district" id="district" class="form-control" />
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="district">District</label>
+                                        <input type="text" name="district" id="district" class="form-control" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="province">Province</label>
-                                    <input type="text" name="province" id="province" class="form-control" />
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="province">Province</label>
+                                        <input type="text" name="province" id="province" class="form-control" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-12" style="margin-top:50px;">
-                                <div class="form-group">
-                                    <label for="current_address">Current Address</label>
-                                    <input type="text" name="current_address" id="current_address" class="form-control" />
+                                <div class="col-md-12" style="margin-top:50px;">
+                                    <div class="form-group">
+                                        <label for="current_address">Current Address</label>
+                                        <input type="text" name="current_address" id="current_address" class="form-control" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="panel-footer">
-                        <button value="submit" class="btn btn-default btn-save">Save <i class="fa fa-save"></i></button>
-                    </div>
-                </form>
-            </div>
-        </div>
+                        <div class="panel-footer">
+                            <button value="submit" class="btn btn-default btn-save">Save <i class="fa fa-save"></i></button>
+                        </div>
+                     </form>
+               </div>
+          </div>
     </div>
 @endsection
 
 @section('script')
 
     <script>
+
+        $('#dateOfBirth').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: 'yy-mm-dd'
+        });
 
         $('#browse_file').on('click', function () {
             $('#photo').click();
