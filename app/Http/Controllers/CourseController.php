@@ -144,7 +144,7 @@ class CourseController extends Controller
         }
     }
 
-    public function ClassInfo()
+    public function ClassInfo($criterial)
     {
         return MyClass::join('academics', 'academics.academic_id', '=', 'classes.academic_id')
             ->join('levels', 'levels.level_id', '=', 'classes.level_id')
@@ -153,12 +153,30 @@ class CourseController extends Controller
             ->join('times', 'times.time_id', '=', 'classes.time_id')
             ->join('batches', 'batches.batch_id', '=', 'classes.batch_id')
             ->join('groups', 'groups.group_id', '=', 'classes.group_id')
+            ->where($criterial)
             ->orderBy('classes.class_id', 'DESC');
     }
 
     public function showClassInfo(Request $request)
     {
-        $classes = $this->ClassInfo()->get();
+        $criterial = array();
+        if ($request->academic_id != "" && $request->program_id == "")
+        {
+            $criterial = array('academics.academic_id' => $request->academic_id);
+
+        } elseif ($request->academic_id != "" && $request->program_id != "" && $request->level_id != "" &&
+                  $request->shift_id    != "" && $request->time_id    != "" && $request->batch_id   != "" && $request->group_id != "")
+        {
+            $criterial = array('academics.academic_id' => $request->academic_id,
+                               'programs.program_id'   => $request->program_id,
+                               'levels.level_id'       => $request->level_id,
+                               'shifts.shift_id'       => $request->shift_id,
+                               'times.time_id'         => $request->time_id,
+                               'batches.batch_id'      => $request->batch_id,
+                               'groups.group_id'       => $request->group_id
+            );
+        }
+        $classes = $this->ClassInfo($criterial)->get();
         return view('class.classInfo', compact('classes'));
     }
 

@@ -164,6 +164,8 @@
 @section('script')
     <script>
 
+        showClassInfo();
+
         $('#start_date, #end_date').datepicker({
             changeYear:true,
             changeMonth:true,
@@ -237,12 +239,13 @@
             $(level).empty();
 
             $.get("{{ route('showLevel') }}", {program_id:program_id}, function (data) {
-                $.each(data, function (i, l) {
+                $.each(data, function (i, lvl) {
                     $(level).append($("<option>", {
-                        value : l.level_id,
-                        text  : l.level
+                        value : lvl.level_id,
+                        text  : lvl.level
                     }));
                 });
+                showClassInfo();
             });
         });
 
@@ -319,16 +322,19 @@
             $(this).trigger('reset');
         });
 
-        function showClassInfo(academic_id)
+        function showClassInfo()
         {
-            $.get("{{ route('showClassInfo') }}", {academic_id:academic_id}, function (data) {
+            var data = $('#form_create_class').serialize();
+
+            $.get("{{ route('showClassInfo') }}", data, function (data) {
                 $('#add_class_info').empty().append(data);
                 mergeCommonRows($("#table_class_info"));
             });
         }
 
-        showClassInfo($('#academic_id').val());
-
+        $('#academic_id, #level_id, #shift_id, #time_id, #batch_id, #group_id').on('change', function () {
+            showClassInfo();
+        });
         //Merge Common Rows Function
         function mergeCommonRows(table) {
 
