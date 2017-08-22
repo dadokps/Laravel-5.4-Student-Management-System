@@ -31,6 +31,18 @@
                     <li><a class="" href="grids.html">Grids</a></li>
                 </ul>
             </li>
+
+            <li class="sub-menu">
+                <a href="javascript:;" class="">
+                    <i class="icon_table"></i>
+                    <span>Fees</span>
+                    <span class="menu-arrow arrow_carrot-right"></span>
+                </a>
+                <ul class="sub">
+                    <li><a class="" href="{{ route('getPayment') }}">Student Payment</a></li>
+                </ul>
+            </li>
+
             <li>
                 <a class="" href="widgets.html">
                     <i class="icon_genius"></i>

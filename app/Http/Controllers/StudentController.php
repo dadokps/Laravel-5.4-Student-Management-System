@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Academic;
 use App\Program;
+use App\Level;
 use App\Shift;
 use App\Time;
 use App\Batch;
