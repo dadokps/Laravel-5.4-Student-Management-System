@@ -39,13 +39,14 @@ Route::group(['middleware' => ['authen', 'roles'], 'roles' => ['admin']], functi
     Route::get('/manage/course/class-edit', ['as' => 'editClass', 'uses' => 'CourseController@editClass']);
     Route::post('/manage/course/class-update', ['as' => 'updateClassInfo', 'uses' => 'CourseController@updateClassInfo']);
 
-    //For Student
+    // Student Controller
     Route::get('/student/register', ['as' => 'getStudentRegister', 'uses' => 'StudentController@getStudentRegister']);
     Route::post('/student/postRegister', ['as' => 'postStudentRegister', 'uses' => 'StudentController@postStudentRegister']);
 
-    //Fee
+    // Fee Controller
     Route::get('/student/show/payment', ['as' => 'getPayment', 'uses' => 'FeeController@getPayment']);
     Route::get('/student/payment', ['as' => 'showStudentPayment', 'uses' => 'FeeController@showStudentPayment']);
+    Route::get('/student/go/to/payment/{student_id}', ['as' => 'goPayment', 'uses' => 'FeeController@goPayment']);
 
 
 

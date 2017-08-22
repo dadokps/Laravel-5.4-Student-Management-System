@@ -12,6 +12,7 @@ use App\Batch;
 use App\Group;
 use App\MyClass;
 use App\Status;
+use App\Fee;
 
 class FeeController extends Controller
 {
@@ -33,13 +34,24 @@ class FeeController extends Controller
                     ->join('programs', 'programs.program_id', '=', 'levels.program_id');
     }
 
+    public function showSchoolFee($level_id)
+    {
+        return Fee::join('academics', 'academics.academic_id', '=', 'fees.academic_id')
+            ->join('levels', 'levels.level_id', '=', 'fees.level_id')
+            ->join('programs', 'programs.program_id', '=', 'levels.program_id')
+            ->join('feetypes', 'feetypes.fee_type_id', '=', 'fees.fee_type_id')
+            ->where('levels.level_id', $level_id)
+            ->orderBy('fees.amount', 'DESC');
+    }
+
     public function payment($viewName, $student_id)
     {
         $status = $this->studentStatus($student_id)->first();
         $programs = Program::where('program_id', $status->program_id)->get();
         $levels = Level::where('program_id', $status->program_id)->get();
+        $studentfee = $this->showSchoolFee($status->level_id)->first();
 
-        return view($viewName, compact('status', 'programs', 'levels'))->with('student_id', $student_id);
+        return view($viewName, compact('status', 'programs', 'levels', 'studentfee'))->with('student_id', $student_id);
     }
 
     public function showStudentPayment(Request $request)
@@ -48,4 +60,8 @@ class FeeController extends Controller
         return $this->payment('fee.payment', $student_id);
     }
 
+    public function goPayment($student_id)
+    {
+        return $this->payment('fee.payment', $student_id);
+    }
 }
