@@ -13,6 +13,10 @@ use App\Group;
 use App\MyClass;
 use App\Status;
 use App\Fee;
+use App\Receipt;
+use App\Transaction;
+use App\StudentFee;
+use App\ReceiptDetail;
 
 class FeeController extends Controller
 {
@@ -23,7 +27,8 @@ class FeeController extends Controller
 
     public function studentStatus($student_id)
     {
-        return Status::join('students', 'students.student_id', '=', 'statuses.student_id')
+        return Status::latest('statuses.status_id')
+                    ->join('students', 'students.student_id', '=', 'statuses.student_id')
                     ->join('classes', 'classes.class_id', '=', 'statuses.class_id')
                     ->join('academics', 'academics.academic_id', '=', 'classes.academic_id')
                     ->join('shifts', 'shifts.shift_id', '=', 'classes.shift_id')
@@ -31,7 +36,8 @@ class FeeController extends Controller
                     ->join('groups', 'groups.group_id', '=', 'classes.group_id')
                     ->join('batches', 'batches.batch_id', '=', 'classes.batch_id')
                     ->join('levels', 'levels.level_id', '=', 'classes.level_id')
-                    ->join('programs', 'programs.program_id', '=', 'levels.program_id');
+                    ->join('programs', 'programs.program_id', '=', 'levels.program_id')
+                    ->where('students.student_id', $student_id);
     }
 
     public function showSchoolFee($level_id)
@@ -50,8 +56,9 @@ class FeeController extends Controller
         $programs = Program::where('program_id', $status->program_id)->get();
         $levels = Level::where('program_id', $status->program_id)->get();
         $studentfee = $this->showSchoolFee($status->level_id)->first();
+        $receipt_id = ReceiptDetail::where('student_id', $student_id)->max('receipt_id');
 
-        return view($viewName, compact('status', 'programs', 'levels', 'studentfee'))->with('student_id', $student_id);
+        return view($viewName, compact('status', 'programs', 'levels', 'studentfee', 'receipt_id'))->with('student_id', $student_id);
     }
 
     public function showStudentPayment(Request $request)
@@ -63,5 +70,10 @@ class FeeController extends Controller
     public function goPayment($student_id)
     {
         return $this->payment('fee.payment', $student_id);
+    }
+
+    public function savePayment(Request $request)
+    {
+        StudentFee::create($request->all());
     }
 }

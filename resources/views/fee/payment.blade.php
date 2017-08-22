@@ -18,10 +18,11 @@
                 <label class="date-invoice">Date: <b>{{ date('d-M-Y') }}</b></label>
             </div>
             <div class="col-md-3" style="text-align: right">
-                <label class="invoice-number">Receipt Number<sup>0</sup>: <b></b></label>
+                <label class="invoice-number">Receipt Number<sup>0</sup>: <b>{{ $receipt_id }}</b></label>
             </div>
         </div>
-        <form>
+        <form action="{{ route('savePayment') }}" method="POST" id="form_payment">
+            {{ csrf_token() }}
             <div class="panel-body">
                 <table style="margin-top: -12px">
                     <caption class="academicDetail">
@@ -62,11 +63,11 @@
                         </td>
                         <td>
                             <input type="text" name="fee" id="Fee" value="{{ $studentfee->amount or null }}" readonly />
-                            <input type="hidden" name="fee_id" id="fee_id" />
-                            <input type="hidden" name="student_id" id="student_id" />
-                            <input type="hidden" name="level_id" id="level_id" />
-                            <input type="hidden" name="user_id" id="user_id" />
-                            <input type="hidden" name="transacdate" id="transacdate" />
+                            <input type="hidden" name="fee_id" id="fee_id" value="{{ $studentfee->fee_id }}" />
+                            <input type="hidden" name="student_id" id="student_id" value="{{ $student_id }}" />
+                            <input type="hidden" name="level_id" id="level_id"  value="{{ $status->level_id }}"/>
+                            <input type="hidden" name="user_id" id="user_id" value="{{ Auth::id() }}" />
+                            <input type="hidden" name="transacdate" id="transacdate" value="{{ date('Y-m-d H:i:s') }}" />
                             <input type="hidden" name="s_fee_id" />
 
                         </td>
@@ -80,7 +81,7 @@
                             <input type="text" name="paid" id="paid" />
                         </td>
                         <td>
-                            <input type="text" name="balance" id="balance" />
+                            <input type="text" name="lack" id="lack" disabled/>
                         </td>
                     </tr>
                     <thead>
@@ -101,11 +102,15 @@
                     </tbody>
                 </table>
             </div>
-            <div class="panel-footer" style="height: 40px;">
-                <input type="button" id="btn-go" name="btn-go" class="btn btn-default btn-payment"/>
+            <div class="panel-footer">
+                <input type="submit" id="btn-go" name="btn-go" class="btn btn-default btn-payment"/>
                 <input type="button" onclick="this.form.reset()" name="btn-go" class="btn btn-default btn-reset pull-right" value="Reset"/>
             </div>
         </form>
     </div>
 
+@endsection
+
+@section('script')
+    @include('fee.script.calculate')
 @endsection
