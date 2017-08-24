@@ -21,7 +21,7 @@
                 <label class="invoice-number">Receipt Number<sup>0</sup>: <b>{{ sprintf('%05d', $receipt_id) }}</b></label>
             </div>
         </div>
-        <form action="{{ route('savePayment') }}" method="POST" id="form_payment">
+        <form action="{{ count($readStudentFee) !=0 ? route('extraPay') : route('savePayment') }}" method="POST" id="form_payment">
             {!! csrf_field() !!}
             <div class="panel-body">
                 <table style="margin-top: -12px">
@@ -46,7 +46,7 @@
                     </thead>
                     <tr>
                         <td>
-                            <select id="program_id" name="program_id">
+                            <select id="program_id" name="program_id" class="dd">
                                 <option value="">-------</option>
                                 @foreach($programs as $key => $program)
                                     <option value="{{ $program->program_id }}" {{ $program->program_id == $status->program_id ? 'selected' : null }}>{{ $program->program }}</option>
@@ -54,7 +54,7 @@
                             </select>
                         </td>
                         <td>
-                            <select id="level_id" name="level_id">
+                            <select id="level_ID" name="level_ID" class="dd">
                                 <option value="">-------</option>
                                 @foreach($levels as $key => $level)
                                     <option value="{{ $level->level_id }}" {{ $level->level_id == $status->level_id ? 'selected' : null }}>{{ $level->level }}</option>
@@ -71,13 +71,13 @@
                             <input type="hidden" name="level_id" id="level_id"  value="{{ $status->level_id }}"/>
                             <input type="hidden" name="user_id" id="user_id" value="{{ Auth::id() }}" />
                             <input type="hidden" name="transact_date" id="transact_date" value="{{ date('Y-m-d H:i:s') }}" />
-                            <input type="hidden" name="s_fee_id" />
+                            <input type="hidden" name="s_fee_id" id="s_fee_id"/>
                         </td>
                         <td>
-                            <input type="text" name="amount" id="amount" required />
+                            <input type="text" name="amount" id="Amount" required class="dd" />
                         </td>
                         <td>
-                            <input type="text" name="discount" id="discount" />
+                            <input type="text" name="discount" id="discount" class="dd"/>
                         </td>
                         <td>
                             <input type="text" name="paid" id="paid" />
@@ -105,12 +105,16 @@
                 </table>
             </div>
             <div class="panel-footer">
-                <input type="submit" id="btn-go" name="btn-go" class="btn btn-default btn-payment"/>
+                <input type="submit" id="btn-go" name="btn-go" class="btn btn-default btn-payment" value="{{ (count($readStudentFee) != 0) ? 'Extra Pay' : 'Save'}}"/>
                 <input type="button" onclick="this.form.reset()" name="btn-go" class="btn btn-default btn-reset pull-right" value="Reset"/>
             </div>
         </form>
     </div>
-    @include('fee.list.studentFeeList')
+
+    @if(count($readStudentFee) != 0)
+        @include('fee.list.studentFeeList')
+        <input type="hidden" value="0" id="disabled">
+    @endif
 
 @endsection
 

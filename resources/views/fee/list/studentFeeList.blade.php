@@ -26,14 +26,24 @@
                         <td style="text-align: center">{{ number_format($studenFee->discount, 2) }} %</td>
                         <td style="text-align: center">
                             {{ number_format($readStudentTransaction->where('s_fee_id', $studenFee->s_fee_id)->sum('paid'), 2) }}
+                            <input type="hidden" name="b" id="b" />
                         </td>
                         <td style="text-align: center">
                            $ {{ number_format($studenFee->student_amount -  $readStudentTransaction->where('s_fee_id', $studenFee->s_fee_id)->sum('paid'), 2) }}
                         </td>
                         <td style="text-align: center; width: 115px;">
-                            <a href="#" class="btn btn-success btn-xs btn-sfee_edit" title="Edit"><i class="fa fa-edit"></i></a>
-                            <button type="button" class="btn btn-danger btn-xs btn-paid"><i class="fa fa-usd" title="Complete"></i></button>
-                            <button class="btn btn-danger btn-xs accordion-toggle" data-toggle="collapse" data-target="#demo{{ $key }}" title="Partial"><span class="fa fa-eye" title="Complete"></span></button>
+                            <a href="#" class="btn btn-success btn-xs btn-sfee_edit" title="Edit" data-updateStudentFeeId="{{ $studenFee->s_fee_id }}">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <button type="button" class="btn btn-danger btn-xs btn-paid"
+                                    value="{{ $studenFee->student_amount -  $readStudentTransaction->where('s_fee_id', $studenFee->s_fee_id)->sum('paid') }}"
+                                    data-paid_id="{{ $studenFee->s_fee_id }}"
+                            >
+                                <i class="fa fa-usd" title="Complete"></i>
+                            </button>
+                            <button class="btn btn-danger btn-xs accordion-toggle" data-toggle="collapse" data-target="#demo{{ $key }}" title="Partial">
+                                <span class="fa fa-eye" title="Complete"></span>
+                            </button>
                         </td>
                     </tr>
                 <tr>

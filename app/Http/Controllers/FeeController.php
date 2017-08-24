@@ -138,4 +138,43 @@ class FeeController extends Controller
             return response($fee);
         }
     }
+
+    public function pay(Request $request)
+    {
+        if($request->ajax())
+        {
+            $studentFee = StudentFee::join('levels', 'levels.level_id', '=', 'studentfees.level_id')
+                    ->join('programs', 'programs.program_id', '=', 'levels.program_id')
+                    ->join('fees', 'fees.fee_id', '=', 'studentfees.fee_id')
+                    ->join('students', 'students.student_id', '=', 'studentfees.student_id')
+                    ->select('levels.level_id',
+                                    'programs.program_id',
+                                    'fees.fee_id',
+                                    'students.student_id',
+                                    'studentfees.s_fee_id',
+                                    'fees.amount as school_fee',
+                                    'studentfees.amount as student_amount',
+                                    'studentfees.discount')
+                    ->where('studentfees.s_fee_id', $request->s_fee_id)
+                    ->first();
+
+            return response($studentFee);
+        }
+    }
+
+    public function extraPay(Request $request)
+    {
+        $transaction = Transaction::create($request->all());
+
+        if(count($transaction) != 0)
+        {
+            $transaction_id = $transaction->transact_id;
+            $student_id = $transaction->student_id;
+            $receipt_id = Receipt::autoNumber();
+
+            ReceiptDetail::create(['receipt_id' => $receipt_id, 'student_id' => $student_id, 'transact_id' => $transaction_id]);
+            return back();
+        }
+    }
+
 }

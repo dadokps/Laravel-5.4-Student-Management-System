@@ -1,26 +1,26 @@
 <script>
 
-    $(document).on("change keyup", "#amount", function () {
+    $(document).on("change keyup", "#Amount", function () {
 
         var fee = $("#Fee").val();
-        var amount = $("#amount").val();
-        var paid = $("#paid").val($("#amount").val());
+        var Amount = $("#Amount").val();
+        var paid = $("#paid").val($("#Amount").val());
         var dis = 0;
 
-        if (paid != "" && amount != "")
+        if (paid != "" && Amount != "")
         {
-            paid = parseFloat($("#amount").val());
+            paid = parseFloat($("#Amount").val());
             var dis = (((parseFloat(fee) - parseFloat(paid)) * 100) / fee);
-            $("#lack").val(parseFloat(amount) - parseFloat(paid));
+            $("#lack").val(parseFloat(Amount) - parseFloat(paid));
         }
 
-        if (paid == "" && amount == "")
+        if (paid == "" && Amount == "")
         {
             $("#paid").val();
             $("#discount").val();
         }
 
-        if (parseFloat(amount) > parseFloat(fee))
+        if (parseFloat(Amount) > parseFloat(fee))
         {
             $("#discount").css("color", "red");
         } else {
@@ -36,15 +36,15 @@
         var fee = parseFloat($("#Fee").val());
         var dis = 0;
         dis = ((fee * parseFloat($(this).val()))) / 100;
-        var amount = fee - dis;
+        var Amount = fee - dis;
 
-        $("#paid").val(parseInt(amount));
-        $("#amount").val(parseInt(amount));
+        $("#paid").val(parseInt(Amount));
+        $("#Amount").val(parseInt(Amount));
     });
 
     $(document).on("change keyup", "#paid", function () {
 
-        b = $("#amount").val();
+        b = $("#Amount").val();
         var pay = $("#paid").val();
 
         if(pay == "") { $("#lack").val(0); }
@@ -68,7 +68,7 @@
         }
     });
 
-    $(document).on("change keyup", "#pay", function () {
+    $(document).on("change keyup", "#Pay", function () {
 
         b = $("#b").val(); var pay = $("#pay").val();
 
