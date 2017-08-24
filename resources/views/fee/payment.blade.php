@@ -107,6 +107,7 @@
             </div>
         </form>
     </div>
+    @include('fee.list.studentFeeList')
 
 @endsection
 

@@ -17,6 +17,7 @@ use App\Receipt;
 use App\Transaction;
 use App\StudentFee;
 use App\ReceiptDetail;
+use Illuminate\Support\Facades\DB;
 
 class FeeController extends Controller
 {
@@ -50,15 +51,37 @@ class FeeController extends Controller
             ->orderBy('fees.amount', 'DESC');
     }
 
+    public function readStudentFee($student_id)
+    {
+        return StudentFee::join('fees', 'fees.fee_id', '=', 'studentfees.fee_id')
+            ->join('students', 'students.student_id', '=', 'studentfees.student_id')
+            ->join('levels', 'levels.level_id', '=', 'studentfees.level_id')
+            ->join('programs', 'programs.program_id', '=', 'levels.program_id')
+            ->select('levels.level_id', 'levels.level', 'fees.amount as school_fee', 'students.student_id', 'studentfees.s_fee_id', 'studentfees.amount as student_amount', 'studentfees.discount')
+            ->where('students.student_id', $student_id);
+    }
+
+    public function readStudentTransaction($student_id)
+    {
+        return ReceiptDetail::join('receipts', 'receipts.receipt_id', '=', 'receiptdetails.receipt_id')
+            ->join('students', 'students.student_id', '=', 'receiptdetails.student_id')
+            ->join('transactions', 'transactions.transact_id', '=', 'receiptdetails.transact_id')
+            ->join('fees', 'fees.fee_id', '=', 'transactions.fee_id')
+            ->join('users', 'users.id', '=', 'transactions.user_id')
+            ->where('students.student_id', $student_id);
+    }
+
     public function payment($viewName, $student_id)
     {
         $status = $this->studentStatus($student_id)->first();
         $programs = Program::where('program_id', $status->program_id)->get();
         $levels = Level::where('program_id', $status->program_id)->get();
         $studentfee = $this->showSchoolFee($status->level_id)->first();
+        $readStudentFee = $this->readStudentFee($student_id)->get();
+        $readStudentTransaction = $this->readStudentTransaction($student_id)->get();
         $receipt_id = ReceiptDetail::where('student_id', $student_id)->max('receipt_id');
 
-        return view($viewName, compact('status', 'programs', 'levels', 'studentfee', 'receipt_id'))->with('student_id', $student_id);
+        return view($viewName, compact('status', 'programs', 'levels', 'studentfee', 'receipt_id', 'readStudentFee', 'readStudentTransaction'))->with('student_id', $student_id);
     }
 
     public function showStudentPayment(Request $request)
@@ -95,6 +118,5 @@ class FeeController extends Controller
         ]);
 
         return back();
-
     }
 }
