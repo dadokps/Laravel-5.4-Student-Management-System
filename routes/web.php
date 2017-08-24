@@ -48,6 +48,7 @@ Route::group(['middleware' => ['authen', 'roles'], 'roles' => ['admin']], functi
     Route::get('/student/payment', ['as' => 'showStudentPayment', 'uses' => 'FeeController@showStudentPayment']);
     Route::get('/student/go/to/payment/{student_id}', ['as' => 'goPayment', 'uses' => 'FeeController@goPayment']);
     Route::post('/student/payment/save', ['as' => 'savePayment', 'uses' => 'FeeController@savePayment']);
+    Route::post('/fee/create', ['as' => 'createFee', 'uses' => 'FeeController@createFee']);
 
 
 

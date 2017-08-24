@@ -17,6 +17,7 @@ use App\Receipt;
 use App\Transaction;
 use App\StudentFee;
 use App\ReceiptDetail;
+use App\FeeType;
 use Illuminate\Support\Facades\DB;
 
 class FeeController extends Controller
@@ -79,9 +80,18 @@ class FeeController extends Controller
         $studentfee = $this->showSchoolFee($status->level_id)->first();
         $readStudentFee = $this->readStudentFee($student_id)->get();
         $readStudentTransaction = $this->readStudentTransaction($student_id)->get();
+        $feeTypes = FeeType::all();
         $receipt_id = ReceiptDetail::where('student_id', $student_id)->max('receipt_id');
 
-        return view($viewName, compact('status', 'programs', 'levels', 'studentfee', 'receipt_id', 'readStudentFee', 'readStudentTransaction'))->with('student_id', $student_id);
+        return view($viewName, compact('status',
+            'programs',
+            'levels',
+            'studentfee',
+            'receipt_id',
+            'readStudentFee',
+            'readStudentTransaction',
+            'feeTypes'))
+            ->with('student_id', $student_id);
     }
 
     public function showStudentPayment(Request $request)
@@ -118,5 +128,14 @@ class FeeController extends Controller
         ]);
 
         return back();
+    }
+
+    public function createFee(Request $request)
+    {
+        if($request->ajax())
+        {
+            $fee = Fee::create($request->all());
+            return response($fee);
+        }
     }
 }

@@ -2,7 +2,7 @@
 
 @section('content')
     @include('fee.stylesheet.cssPayment')
-
+    @include('fee.createFee')
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="col-md-3">
@@ -62,8 +62,11 @@
                             </select>
                         </td>
                         <td>
-                            <input type="text" name="fee" id="Fee" value="{{ $studentfee->amount or null }}" readonly />
-                            <input type="hidden" name="fee_id" id="fee_id" value="{{ $studentfee->fee_id }}" />
+                            <div class="input-group">
+                                <span data-toggle="modal" data-target="#createFeePup" data class="input-group-addon create-fee" title="Create Fee" style="cursor: pointer;color: blue;padding: 0px 3px; border-right: none;">($)</span>
+                                <input type="text" name="fee" id="Fee" value="{{ $studentfee->amount or null }}" readonly />
+                            </div>
+                            <input type="hidden" name="fee_id" id="fee_id" value="{{ $studentfee->fee_id or null }}" />
                             <input type="hidden" name="student_id" id="student_id" value="{{ $student_id }}" />
                             <input type="hidden" name="level_id" id="level_id"  value="{{ $status->level_id }}"/>
                             <input type="hidden" name="user_id" id="user_id" value="{{ Auth::id() }}" />
@@ -113,4 +116,5 @@
 
 @section('script')
     @include('fee.script.calculate')
+    @include('fee.script.payment')
 @endsection
