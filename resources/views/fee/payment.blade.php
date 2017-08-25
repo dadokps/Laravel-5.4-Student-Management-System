@@ -27,11 +27,11 @@
                 <table style="margin-top: -12px">
                     <caption class="academicDetail">
                         {{ $status->program }} /
-                        Level: {{ $status->level }} /
-                        Shift: {{ $status->shift }} /
-                        Time: {{ $status->time }} /
-                        Batch: {{ $status->batch }} /
-                        Group: {{ $status->group }}
+                        Level - {{ $status->level }} /
+                        Shift - {{ $status->shift }} /
+                        Time - {{ $status->time }} /
+                        Batch - {{ $status->batch }} /
+                        Group - {{ $status->group }}
                     </caption>
                     <thead>
                     <tr>
@@ -62,9 +62,9 @@
                                 <span data-toggle="modal" data-target="#createFeePup" data class="input-group-addon create-fee" title="Create Fee" style="cursor: pointer;color: blue;padding: 0px 3px; border-right: none;">($)</span>
                                 <input type="text" name="fee" id="Fee" value="{{ $studentfee->amount or null }}" readonly />
                             </div>
-                            <input type="hidden" name="fee_id" id="fee_id" value="{{ $studentfee->fee_id or null }}" />
+                            <input type="hidden" name="fee_id" id="FeeId" value="{{ $studentfee->fee_id or null }}" />
                             <input type="hidden" name="student_id" id="student_id" value="{{ $student_id }}" />
-                            <input type="hidden" name="level_id" id="level_id"  value="{{ $status->level_id }}"/>
+                            <input type="hidden" name="level_id" id="LevelId"  value="{{ $status->level_id }}"/>
                             <input type="hidden" name="user_id" id="user_id" value="{{ Auth::id() }}" />
                             <input type="hidden" name="transact_date" id="transact_date" value="{{ date('Y-m-d H:i:s') }}" />
                             <input type="hidden" name="s_fee_id" id="s_fee_id"/>

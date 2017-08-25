@@ -21,8 +21,8 @@
                 <td>{{ $studentTransaction->remark }}</td>
                 <td>{{ $studentTransaction->description }}</td>
                 <td style="text-align: center; width: 112px;">
-                    <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-edit" title="Edit"></i></a>
-                    <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-trash-o" title="Delete"></i></a>
+                    <a href="#" class="btn btn-success btn-xs"><i class="fa fa-edit" title="Edit"></i></a>
+                    <a href="{{ route('deleteTransaction', $studentTransaction->transact_id) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o" title="Delete"></i></a>
                     <a href="{{ route('printInvoice', $studentTransaction->receipt_id) }}" target="_blank" class="btn btn-primary btn-xs"><i class="fa fa-print" title="Print"></i></a>
                 </td>
             </tr>

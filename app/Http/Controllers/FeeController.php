@@ -239,6 +239,32 @@ class FeeController extends Controller
         Status::insert(['student_id' => 17, 'class_id' => 3]);
     }
 
+    public function deleteTransaction($transaction_id)
+    {
+        Transaction::destroy($transaction_id);
+        return back();
+    }
 
+    public function showStudentLevel(Request $request)
+    {
+        $status = MyClass::join('levels', 'levels.level_id', '=', 'classes.level_id')
+                        ->join('shifts', 'shifts.shift_id', '=', 'classes.shift_id')
+                        ->join('times', 'times.time_id', '=', 'classes.time_id')
+                        ->join('groups', 'groups.group_id', '=', 'classes.group_id')
+                        ->join('batches', 'batches.batch_id', '=', 'classes.batch_id')
+                        ->join('academics', 'academics.academic_id', '=', 'classes.academic_id')
+                        ->join('programs', 'programs.program_id', '=', 'levels.program_id')
+                        ->join('statuses', 'statuses.class_id', '=', 'classes.class_id')
+                        ->where('levels.level_id', $request->level_id)
+                        ->where('statuses.student_id', $request->student_id)
+                        ->select(DB::raw('CONCAT("Program-", programs.program,
+                                                    " / Level-", levels.level,
+                                                    " / Shift-", shifts.shift,
+                                                    " / Time-", times.time,
+                                                    " / Group-", groups.group,
+                                                    " / Batch-", batches.batch) As detail'))
+                        ->first();
 
+        return response($status);
+    }
 }
