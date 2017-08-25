@@ -58,7 +58,7 @@ class FeeController extends Controller
             ->join('students', 'students.student_id', '=', 'studentfees.student_id')
             ->join('levels', 'levels.level_id', '=', 'studentfees.level_id')
             ->join('programs', 'programs.program_id', '=', 'levels.program_id')
-            ->select('levels.level_id', 'levels.level', 'fees.amount as school_fee', 'students.student_id', 'studentfees.s_fee_id', 'studentfees.amount as student_amount', 'studentfees.discount')
+            ->select('levels.level_id', 'levels.level', 'programs.program', 'fees.amount as school_fee', 'students.student_id', 'studentfees.s_fee_id', 'studentfees.amount as student_amount', 'studentfees.discount')
             ->where('students.student_id', $student_id);
     }
 
@@ -144,19 +144,21 @@ class FeeController extends Controller
         if($request->ajax())
         {
             $studentFee = StudentFee::join('levels', 'levels.level_id', '=', 'studentfees.level_id')
-                    ->join('programs', 'programs.program_id', '=', 'levels.program_id')
-                    ->join('fees', 'fees.fee_id', '=', 'studentfees.fee_id')
-                    ->join('students', 'students.student_id', '=', 'studentfees.student_id')
-                    ->select('levels.level_id',
-                                    'programs.program_id',
-                                    'fees.fee_id',
-                                    'students.student_id',
-                                    'studentfees.s_fee_id',
-                                    'fees.amount as school_fee',
-                                    'studentfees.amount as student_amount',
-                                    'studentfees.discount')
-                    ->where('studentfees.s_fee_id', $request->s_fee_id)
-                    ->first();
+                                    ->join('programs', 'programs.program_id', '=', 'levels.program_id')
+                                    ->join('fees', 'fees.fee_id', '=', 'studentfees.fee_id')
+                                    ->join('students', 'students.student_id', '=', 'studentfees.student_id')
+                                    ->select('levels.level_id',
+                                                    'levels.level',
+                                                    'programs.program_id',
+                                                    'programs.program',
+                                                    'fees.fee_id',
+                                                    'students.student_id',
+                                                    'studentfees.s_fee_id',
+                                                    'fees.amount as school_fee',
+                                                    'studentfees.amount as student_amount',
+                                                    'studentfees.discount')
+                                    ->where('studentfees.s_fee_id', $request->s_fee_id)
+                                    ->first();
 
             return response($studentFee);
         }
@@ -180,37 +182,40 @@ class FeeController extends Controller
     public function printInvoice($receipt_id = null)
     {
         $invoice = ReceiptDetail::join('receipts', 'receipts.receipt_id', '=', 'receiptdetails.receipt_id')
-                    ->join('students', 'students.student_id', '=', 'receiptdetails.student_id')
-                    ->join('transactions', 'transactions.transact_id', '=', 'receiptdetails.transact_id')
-                    ->join('fees', 'fees.fee_id', '=', 'transactions.fee_id')
-                    ->join('levels', 'levels.level_id', '=', 'fees.level_id')
-                    ->join('programs', 'programs.program_id', '=', 'levels.program_id')
-                    ->join('users', 'users.id', '=', 'transactions.user_id')
-                    ->join('statuses', 'statuses.student_id', '=', 'students.student_id')
-                    ->select('students.student_id',
-                        'students.first_name',
-                        'students.last_name',
-                        'students.sex',
-                        'fees.fee_id',
-                        'fees.amount as school_fee',
-                        'transactions.transact_date',
-                        'transactions.paid',
-                        'users.name',
-                        'receipts.receipt_id',
-                        'statuses.class_id',
-                        'transactions.s_fee_id')
-                    ->where('receipts.receipt_id', $receipt_id)
-                    ->first();
+                                ->join('students', 'students.student_id', '=', 'receiptdetails.student_id')
+                                ->join('transactions', 'transactions.transact_id', '=', 'receiptdetails.transact_id')
+                                ->join('fees', 'fees.fee_id', '=', 'transactions.fee_id')
+                                ->join('levels', 'levels.level_id', '=', 'fees.level_id')
+                                ->join('programs', 'programs.program_id', '=', 'levels.program_id')
+                                ->join('users', 'users.id', '=', 'transactions.user_id')
+                                ->join('statuses', 'statuses.student_id', '=', 'students.student_id')
+                                ->where('receipts.receipt_id', $receipt_id)
+                                ->select('students.student_id',
+                                    'students.first_name',
+                                    'students.last_name',
+                                    'students.sex',
+                                    'fees.fee_id',
+                                    'fees.amount as school_fee',
+                                    'transactions.transact_date',
+                                    'transactions.paid',
+                                    'users.name',
+                                    'receipts.receipt_id',
+                                    'statuses.class_id',
+                                    'transactions.s_fee_id',
+                                    'levels.level_id')
+                                ->first();
 
-        $status = Program::join('levels', 'levels.program_id', '=', 'levels.program_id')
-                        ->join('classes', 'classes.level_id', '=', 'levels.level_id')
+        $status = MyClass::join('levels', 'levels.level_id', '=', 'classes.level_id')
                         ->join('shifts', 'shifts.shift_id', '=', 'classes.shift_id')
                         ->join('times', 'times.time_id', '=', 'classes.time_id')
                         ->join('groups', 'groups.group_id', '=', 'classes.group_id')
                         ->join('batches', 'batches.batch_id', '=', 'classes.batch_id')
                         ->join('academics', 'academics.academic_id', '=', 'classes.academic_id')
-                        ->where('classes.class_id', $invoice->class_id)
-                        ->select(DB::raw('CONCAT(programs.program,
+                        ->join('programs', 'programs.program_id', '=', 'levels.program_id')
+                        ->join('statuses', 'statuses.class_id', '=', 'classes.class_id')
+                        ->where('levels.level_id', $invoice->level_id)
+                        ->where('statuses.student_id', $invoice->student_id)
+                        ->select(DB::raw('CONCAT("Program-", programs.program,
                                         " / Level-", levels.level,
                                         " / Shift-", shifts.shift,
                                         " / Time-", times.time,
@@ -229,6 +234,10 @@ class FeeController extends Controller
 
     }
 
+    public function createStudentLevel()
+    {
+        Status::insert(['student_id' => 17, 'class_id' => 3]);
+    }
 
 
 

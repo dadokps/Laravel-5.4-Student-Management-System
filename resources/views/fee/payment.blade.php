@@ -48,17 +48,13 @@
                         <td>
                             <select id="program_id" name="program_id" class="dd">
                                 <option value="">-------</option>
-                                @foreach($programs as $key => $program)
-                                    <option value="{{ $program->program_id }}" {{ $program->program_id == $status->program_id ? 'selected' : null }}>{{ $program->program }}</option>
-                                @endforeach
+
                             </select>
                         </td>
                         <td>
                             <select id="level_ID" name="level_ID" class="dd">
                                 <option value="">-------</option>
-                                @foreach($levels as $key => $level)
-                                    <option value="{{ $level->level_id }}" {{ $level->level_id == $status->level_id ? 'selected' : null }}>{{ $level->level }}</option>
-                                @endforeach
+
                             </select>
                         </td>
                         <td>
@@ -80,7 +76,7 @@
                             <input type="text" name="discount" id="discount" class="dd"/>
                         </td>
                         <td>
-                            <input type="text" name="paid" id="paid" />
+                            <input type="text" name="paid" id="Paid" />
                         </td>
                         <td>
                             <input type="text" name="lack" id="lack" disabled/>

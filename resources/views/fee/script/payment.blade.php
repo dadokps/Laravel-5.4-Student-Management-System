@@ -20,7 +20,7 @@
 
         $.each($(formName).find('input, select'), function (i, element) {
 
-            $(element).attr('disabled', false);
+            $(element).attr('disabled', false).css({ 'background':'#fff', 'border':'1px solid #ccc' });
         });
     }
 
@@ -34,8 +34,6 @@
 
             $('#Paid').attr('id', 'Pay');
             $('#s_fee_id').val(data.s_fee_id);
-            $('#program_id').val(data.program_id);
-            $('#level_ID').val(data.level_id);
             $('#level_id').val(data.level_id);
             $('#Fee').val(data.school_fee);
             $('#fee_id').val(data.fee_id);
@@ -43,6 +41,7 @@
             $('#discount').val(data.discount);
             $('#Pay').val(balance).focus().select();
             $('#b').val(balance);
+            addItem(data)
 
         });
     });
@@ -62,6 +61,36 @@
             disabledInput();
         }
     });
+
+    $('.btn-reset').on('click', function (e) {
+
+        e.preventDefault();
+        var caption = $(this).val();
+
+        if(caption == 'Reset')
+        {
+            $(this).val('Cancel');
+            $('#btn-go').val('Save');
+            $('#Pay').attr('id', 'Paid');
+            $('#form_payment').attr('action', "{{ route('savePayment') }}");
+            enableFormElement('#form_payment');
+            return;
+        }
+        location.reload();
+    });
+
+    function addItem(data)
+    {
+        $('#program_id').empty().append($('<option>', {
+           value: data.program_id,
+           text : data.program
+        }));
+
+        $('#level_ID').empty().append($('<option>', {
+            value: data.level_id,
+            text : data.level
+        }));
+    }
 
 
 </script>

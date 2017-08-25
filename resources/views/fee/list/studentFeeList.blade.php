@@ -7,6 +7,7 @@
                 <thead>
                     <tr>
                         <th style="text-align: center">N<sup>o</sup></th>
+                        <th>Program</th>
                         <th>Level</th>
                         <th style="text-align: center">Fee</th>
                         <th style="text-align: center">Amount</th>
@@ -20,6 +21,7 @@
                     @foreach($readStudentFee as $key => $studenFee)
                     <tr data-di="" id="sFeeId">
                         <td style="text-align: center">{{ $key + 1 }}</td>
+                        <td style="text-align: center">{{ $studenFee->program }}</td>
                         <td style="text-align: center">{{ $studenFee->level }}</td>
                         <td style="text-align: center">{{ number_format($studenFee->school_fee, 2) }}</td>
                         <td style="text-align: center">{{ number_format($studenFee->student_amount, 2) }}</td>
@@ -28,7 +30,7 @@
                             {{ number_format($readStudentTransaction->where('s_fee_id', $studenFee->s_fee_id)->sum('paid'), 2) }}
                             <input type="hidden" name="b" id="b" />
                         </td>
-                        <td style="text-align: center">
+                        <td style="text-align: center;  color: red; font-weight: bold;">
                            $ {{ number_format($studenFee->student_amount -  $readStudentTransaction->where('s_fee_id', $studenFee->s_fee_id)->sum('paid'), 2) }}
                         </td>
                         <td style="text-align: center; width: 115px;">
@@ -41,7 +43,7 @@
                             >
                                 <i class="fa fa-usd" title="Complete"></i>
                             </button>
-                            <button class="btn btn-danger btn-xs accordion-toggle" data-toggle="collapse" data-target="#demo{{ $key }}" title="Partial">
+                            <button class="btn btn-primary btn-xs accordion-toggle" data-toggle="collapse" data-target="#demo{{ $key }}" title="Partial">
                                 <span class="fa fa-eye" title="Complete"></span>
                             </button>
                         </td>
