@@ -106,6 +106,9 @@
             </div>
             <div class="panel-footer">
                 <input type="submit" id="btn-go" name="btn-go" class="btn btn-default btn-payment" value="{{ (count($readStudentFee) != 0) ? 'Extra Pay' : 'Save'}}"/>
+                @if(count($readStudentFee) != 0)
+                    <a href="{{ route('printInvoice', $receipt_id) }}" class="btn btn-default btn-sm" target="_blank"><i class="fa fa-print"> Print</i></a>
+                @endif
                 <input type="button" onclick="this.form.reset()" name="btn-go" class="btn btn-default btn-reset pull-right" value="Reset"/>
             </div>
         </form>

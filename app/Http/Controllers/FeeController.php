@@ -177,4 +177,59 @@ class FeeController extends Controller
         }
     }
 
+    public function printInvoice($receipt_id = null)
+    {
+        $invoice = ReceiptDetail::join('receipts', 'receipts.receipt_id', '=', 'receiptdetails.receipt_id')
+                    ->join('students', 'students.student_id', '=', 'receiptdetails.student_id')
+                    ->join('transactions', 'transactions.transact_id', '=', 'receiptdetails.transact_id')
+                    ->join('fees', 'fees.fee_id', '=', 'transactions.fee_id')
+                    ->join('levels', 'levels.level_id', '=', 'fees.level_id')
+                    ->join('programs', 'programs.program_id', '=', 'levels.program_id')
+                    ->join('users', 'users.id', '=', 'transactions.user_id')
+                    ->join('statuses', 'statuses.student_id', '=', 'students.student_id')
+                    ->select('students.student_id',
+                        'students.first_name',
+                        'students.last_name',
+                        'students.sex',
+                        'fees.fee_id',
+                        'fees.amount as school_fee',
+                        'transactions.transact_date',
+                        'transactions.paid',
+                        'users.name',
+                        'receipts.receipt_id',
+                        'statuses.class_id',
+                        'transactions.s_fee_id')
+                    ->where('receipts.receipt_id', $receipt_id)
+                    ->first();
+
+        $status = Program::join('levels', 'levels.program_id', '=', 'levels.program_id')
+                        ->join('classes', 'classes.level_id', '=', 'levels.level_id')
+                        ->join('shifts', 'shifts.shift_id', '=', 'classes.shift_id')
+                        ->join('times', 'times.time_id', '=', 'classes.time_id')
+                        ->join('groups', 'groups.group_id', '=', 'classes.group_id')
+                        ->join('batches', 'batches.batch_id', '=', 'classes.batch_id')
+                        ->join('academics', 'academics.academic_id', '=', 'classes.academic_id')
+                        ->where('classes.class_id', $invoice->class_id)
+                        ->select(DB::raw('CONCAT(programs.program,
+                                        " / Level-", levels.level,
+                                        " / Shift-", shifts.shift,
+                                        " / Time-", times.time,
+                                        " / Group-", groups.group,
+                                        " / Batch-", batches.batch,
+                                        " / Academic-", academics.academic,
+                                        " / Start Date-", classes.start_date,
+                                        " / End Date", classes.end_date
+                                        ) As detail'))
+                        ->first();
+
+        $studentFee = StudentFee::where('s_fee_id', $invoice->s_fee_id)->first();
+        $totalPaid  = Transaction::where('s_fee_id', $invoice->s_fee_id)->sum('paid');
+
+        return view('invoice.invoice', compact('invoice', 'status', 'totalPaid', 'studentFee'));
+
+    }
+
+
+
+
 }

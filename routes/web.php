@@ -51,7 +51,7 @@ Route::group(['middleware' => ['authen', 'roles'], 'roles' => ['admin']], functi
     Route::post('/fee/create', ['as' => 'createFee', 'uses' => 'FeeController@createFee']);
     Route::get('/fee/student/pay', ['as' => 'pay', 'uses' => 'FeeController@pay']);
     Route::post('/fee/student/extraPay', ['as' => 'extraPay', 'uses' => 'FeeController@extraPay']);
-
+    Route::get('/fee/student/print/invoice/{receipt_id}', ['as' => 'printInvoice', 'uses' => 'FeeController@printInvoice']);
 
 
 

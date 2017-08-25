@@ -1,4 +1,4 @@
-<div id="demo{{ $key }}" class="accordian-body collapse">
+<div id="demo{{ $key }}" class="accordian-body collapse {{ $key==0 ? 'in' : null }}">
     <table>
         <thead>
             <tr>
@@ -23,7 +23,7 @@
                 <td style="text-align: center; width: 112px;">
                     <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-edit" title="Edit"></i></a>
                     <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-trash-o" title="Delete"></i></a>
-                    <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-print" title="Print"></i></a>
+                    <a href="{{ route('printInvoice', $studentTransaction->receipt_id) }}" target="_blank" class="btn btn-primary btn-xs"><i class="fa fa-print" title="Print"></i></a>
                 </td>
             </tr>
             @endforeach
