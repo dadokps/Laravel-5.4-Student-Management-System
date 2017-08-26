@@ -43,6 +43,17 @@
                 </ul>
             </li>
 
+            <li class="sub-menu">
+                <a href="javascript:;" class="">
+                    <i class="icon_table"></i>
+                    <span>Report</span>
+                    <span class="menu-arrow arrow_carrot-right"></span>
+                </a>
+                <ul class="sub">
+                    <li><a class="" href="{{ route('getStudentList') }}">Student List</a></li>
+                </ul>
+            </li>
+
             <li>
                 <a class="" href="widgets.html">
                     <i class="icon_genius"></i>

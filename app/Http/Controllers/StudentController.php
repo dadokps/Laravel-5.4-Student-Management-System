@@ -26,7 +26,8 @@ class StudentController extends Controller
         $times      = Time::all();
         $batches    = Batch::all();
         $groups     = Group::all();
-        $student_id  = Student::max('student_id');
+        $student_id = Student::max('student_id');
+
         return view('student.studentRegister', compact('programs', 'academics', 'shifts', 'times', 'batches', 'groups', 'student_id'));
     }
 
@@ -36,7 +37,7 @@ class StudentController extends Controller
         $student->first_name = $request->first_name;
         $student->last_name  = $request->last_name;
         $student->sex = $request->sex;
-        $student->dob = $request->dob;
+        $student->dob = $request->dateOfBirth;
         $student->email = $request->email;
         $student->rac = $request->rac;
         $student->status = $request->status;
