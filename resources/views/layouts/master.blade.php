@@ -9,7 +9,7 @@
     <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
     <link rel="shortcut icon" href="img/favicon.png">
 
-    <title>Dashboard</title>
+    @yield('title', 'Dashboard')
 
     <!-- Bootstrap CSS -->
     {!! Html::style('css/bootstrap.min.css') !!}
@@ -34,6 +34,9 @@
     {!! Html::style('css/style-responsive.css') !!}
     {!! Html::style('css/xcharts.min.css') !!}
     {!! Html::style('css/jquery-ui-1.10.4.min.css') !!}
+    <!-- Css data table -->
+    {!! Html::style('css/buttons.dataTables.min.css') !!}
+    {!! Html::style('css/jquery.dataTables.min.css') !!}
     @yield('style')
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
     <!--[if lt IE 9]>
@@ -99,6 +102,13 @@
 {!! Html::script('js/sparklines.js') !!}
 {!! Html::script('js/charts.js') !!}
 {!! Html::script('js/jquery.slimscroll.min.js') !!}
+<!-- JS data table -->
+{!! Html::script('js/jquery.dataTables.min.js') !!}
+{!! Html::script('js/dataTables.buttons.min.js') !!}
+{!! Html::script('js/jszip.min.js') !!}
+{!! Html::script('js/pdfmake.min.js') !!}
+{!! Html::script('js/vfs_fonts.js') !!}
+{!! Html::script('js/buttons.html5.min.js') !!}
 
 @yield('script')
 <script>

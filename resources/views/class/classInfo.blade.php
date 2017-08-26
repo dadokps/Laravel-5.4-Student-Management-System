@@ -15,7 +15,10 @@
             <th>Shift</th>
             <th>Time</th>
             <th>Academic Detail</th>
-            <th hidden="hidden">Action</th>
+            <th hidden="hidden">Action</th>\
+            <th>
+                <input type="checkbox" id="checkAll">
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -39,6 +42,9 @@
                 </td>
                 <td class="text-center" id="hidden">
                     <button value="{{ $class->class_id }}" class="btn btn-danger btn-sm delete_class">Delete</button>
+                </td>
+                <td>
+                    <input type="checkbox" name="checkAll[]" value="{{ $class->class_id }}" class="check_all">
                 </td>
             </tr>
         @endforeach

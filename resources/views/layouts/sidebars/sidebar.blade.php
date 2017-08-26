@@ -51,6 +51,7 @@
                 </a>
                 <ul class="sub">
                     <li><a class="" href="{{ route('getStudentList') }}">Student List</a></li>
+                    <li><a class="" href="{{ route('getStudentMultiList') }}">Student Multi List</a></li>
                 </ul>
             </li>
 

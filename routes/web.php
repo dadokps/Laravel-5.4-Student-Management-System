@@ -61,6 +61,8 @@ Route::group(['middleware' => ['authen', 'roles'], 'roles' => ['admin']], functi
     // Student Report
     Route::get('/report/student-list', ['as' => 'getStudentList', 'uses' => 'ReportController@getStudentList']);
     Route::get('/report/student-info', ['as' => 'showStudentInfo', 'uses' => 'ReportController@showStudentInfo']);
+    Route::get('/report/student-multiList', ['as' => 'getStudentMultiList', 'uses' => 'ReportController@getStudentMultiList']);
+    Route::get('/report/student-info-multiList', ['as' => 'showStudentMultiInfo', 'uses' => 'ReportController@showStudentMultiInfo']);
 
 
 

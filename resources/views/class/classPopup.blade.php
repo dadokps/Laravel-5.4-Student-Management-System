@@ -106,14 +106,16 @@
             </form>
 
             <!-- Class Information -->
-
-            <div class="panel panel-default">
-                <div class="panel-heading">Class Information</div>
-                <div class="panel-body" id="add_class_info" style="overflow-y: auto;height: 250px;">
-
+            <form action="#" method="GET" id="form-multi-class">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Class Information
+                        <button type="button" id="btn-go" class="btn btn-info btn-xs pull-right" style="margin-top: 5px;">Go</button>
+                    </div>
+                    <div class="panel-body" id="add_class_info" style="overflow-y: auto;height: 250px;">
+                    </div>
                 </div>
-            </div>
-
+            </form>
         </section>
     </div>
 </div>

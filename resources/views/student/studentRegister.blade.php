@@ -281,6 +281,8 @@
     @include('script.scriptClassPopup')
     <script>
 
+        $('#form-multi-class #btn-go').addClass('hidden');
+
         $('#dateOfBirth').datepicker({
             changeMonth: true,
             changeYear: true,

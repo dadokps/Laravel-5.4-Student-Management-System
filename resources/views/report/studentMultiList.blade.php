@@ -42,18 +42,22 @@
     @include('script.scriptClassPopup')
     <script>
 
-        $(document).on('click', '#edit_class', function (e) {
+        $(document).on('click', '#btn-go', function (e) {
 
             e.preventDefault();
-            class_id = $(this).data('id');
+            data = $('#form-multi-class').serialize();
 
-            $.get("{{ route('showStudentInfo') }}", {class_id:class_id}, function (data) {
+            $.get("{{ route('showStudentMultiInfo') }}", data, function (data) {
 
                 $('.show-student-info').empty().append(data);
             });
 
         });
 
+        $(document).on('click', '#checkAll', function (e) {
 
+            $(':checkbox.check_all').prop('checked', this.checked);
+
+        });
     </script>
 @endsection
