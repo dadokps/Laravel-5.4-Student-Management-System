@@ -42,6 +42,8 @@ Route::group(['middleware' => ['authen', 'roles'], 'roles' => ['admin']], functi
     // Student Controller
     Route::get('/student/register', ['as' => 'getStudentRegister', 'uses' => 'StudentController@getStudentRegister']);
     Route::post('/student/postRegister', ['as' => 'postStudentRegister', 'uses' => 'StudentController@postStudentRegister']);
+    Route::get('/student/info', ['as' => 'studentInfo', 'uses' => 'StudentController@studentInfo']);
+
 
     // Fee Controller
     Route::get('/student/show/payment', ['as' => 'getPayment', 'uses' => 'FeeController@getPayment']);

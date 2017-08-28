@@ -27,7 +27,7 @@
                 </a>
                 <ul class="sub">
                     <li><a class="" href="{{ route('getStudentRegister') }}">Create Student</a></li>
-                    <li><a class="" href="buttons.html">Buttons</a></li>
+                    <li><a class="" href="{{ route('studentInfo') }}">Student List</a></li>
                     <li><a class="" href="grids.html">Grids</a></li>
                 </ul>
             </li>

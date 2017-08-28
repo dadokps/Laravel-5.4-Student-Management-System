@@ -15,6 +15,7 @@ use App\Student;
 use App\Status;
 use App\FileUpload;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -60,5 +61,34 @@ class StudentController extends Controller
             Status::insert(['student_id' => $student_id, 'class_id' => $request->class_id]);
             return redirect()->route('goPayment', ['student_id' => $student_id]);
         }
+    }
+
+    public function studentInfo(Request $request)
+    {
+        if($request->has('search'))
+        {
+            $students = Student::where('student_id', $request->search)
+                                ->orWhere('first_name', 'LIKE', '%'. $request->search .'%')
+                                ->orWhere('last_name', 'LIKE', '%'. $request->search .'%')
+                                ->select(DB::raw('student_id,
+                                                  first_name,
+                                                  last_name,
+                                                  CONCAT(first_name, " ", last_name) as full_name,
+                                                  (CASE WHEN sex=0 THEN "M" ELSE "F" END) as sex,
+                                                  dob'))
+                                ->paginate(10)
+                                ->appends('search', $request->search);
+        } else {
+
+            $students = Student::select(DB::raw('student_id,
+                                                  first_name,
+                                                  last_name,
+                                                  CONCAT(first_name, " ", last_name) as full_name,
+                                                  (CASE WHEN sex=0 THEN "M" ELSE "F" END) as sex,
+                                                  dob'))
+                                ->paginate(10);
+        }
+
+        return view('student.studentList', compact('students'));
     }
 }
