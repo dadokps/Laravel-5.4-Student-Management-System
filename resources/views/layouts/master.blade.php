@@ -56,7 +56,11 @@
     <!--main content start-->
     <section id="main-content">
         <div class="wrapper">
+
+            @include('partials._messages')
+
             @yield('content')
+
         </div>
     </section>
 </section>

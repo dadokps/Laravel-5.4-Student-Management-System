@@ -15,7 +15,7 @@
             <th>Shift</th>
             <th>Time</th>
             <th>Academic Detail</th>
-            <th hidden="hidden">Action</th>\
+            <th hidden="hidden">Action</th>
             <th>
                 <input type="checkbox" id="checkAll">
             </th>

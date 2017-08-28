@@ -91,7 +91,7 @@
                     <b><i class="fa fa-apple"></i> Student Information</b>
                 </div>
                     <div class="panel-body" style="padding-bottom: 4px;">
-                        <form action="{{ route('postStudentRegister') }}" method="POST" id="form_create_student">
+                        <form action="{{ route('postStudentRegister') }}" method="POST" id="form_create_student" enctype="multipart/form-data">
                             {!! csrf_field() !!}
                             <input type="hidden" name="class_id" id="class_id">
                             <input type="hidden" name="user_id" id="user_id" value="{{ Auth::id() }}">
@@ -102,13 +102,13 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="firstname">First Name</label>
-                                            <input type="text" name="first_name" id="first_name" class="form-control" required>
+                                            <input type="text" name="first_name" id="first_name" class="form-control" >
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="lastname">Last Name</label>
-                                            <input type="text" name="last_name" id="last_name" class="form-control" required>
+                                            <input type="text" name="last_name" id="last_name" class="form-control" >
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -119,11 +119,11 @@
                                                     <tr style="border-bottom: 1px solid #ccc;">
                                                         <td>
                                                             <label><input type="radio" name="sex" id="sex" value="0"
-                                                                          required/>Male</label>
+                                                                          />Male</label>
                                                         </td>
                                                         <td>
                                                             <label><input type="radio" name="sex" id="sex" value="1"
-                                                                          required/>Female</label>
+                                                                          />Female</label>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -137,16 +137,14 @@
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar dateOfBirth"></i>
                                                 </div>
-                                                <input type="text" name="dateOfBirth" id="dateOfBirth" class="form-control"
-                                                       placeholder="yyyy/mm/dd" required/>
+                                                <input type="text" name="dateOfBirth" id="dateOfBirth" class="form-control" placeholder="yyyy/mm/dd" />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="national_card">National Card</label>
-                                            <input type="text" name="national_card" id="national_card" class="form-control"
-                                                   required/>
+                                            <input type="text" name="national_card" id="national_card" class="form-control" />
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -183,19 +181,19 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="passport">Passport</label>
-                                            <input type="text" name="passport" id="passport" class="form-control" required/>
+                                            <input type="text" name="passport" id="passport" class="form-control" />
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="phone">Phone</label>
-                                            <input type="text" name="phone" id="phone" class="form-control" required/>
+                                            <input type="text" name="phone" id="phone" class="form-control" />
                                         </div>
                                     </div>
                                     <div class="col-md-8">
                                         <div class="form-group">
                                             <label for="email">Email</label>
-                                            <input type="email" name="email" id="email" class="form-control" required/>
+                                            <input type="email" name="email" id="email" class="form-control" />
                                         </div>
                                     </div>
                                 </div>

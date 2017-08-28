@@ -19,6 +19,13 @@ use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
+
+    /**
+     * Get the view for student registration
+     *
+     * @return Response
+     */
+
     public function getStudentRegister()
     {
         $academics  = Academic::orderBy('academic_id', "DESC")->get();
@@ -32,8 +39,35 @@ class StudentController extends Controller
         return view('student.studentRegister', compact('programs', 'academics', 'shifts', 'times', 'batches', 'groups', 'student_id'));
     }
 
+    /**
+     * Save student in the database.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+
     public function postStudentRegister(Request $request)
     {
+
+        $this->validate($request, [
+            'first_name' => 'required|min:3|max:255',
+            'last_name' => 'required|min:3|max:255',
+            'sex' => 'required|integer',
+            'dateOfBirth' => 'required|date_format:Y-m-d',
+            'email' => 'required|email|max:50',
+            'national_card' => 'required|max:255',
+            'status' => 'required|integer',
+            'nationality' => 'required|max:50',
+            'rac' => 'required|max:50',
+            'phone' => 'required|max:50',
+            'passport' => 'required|max:50',
+            'photo' => 'required|mimes:jpeg,bmp,png,jpg,x-png',
+            'class_id' => 'required',
+        ], [
+                'class_id.required' => 'Please choose academic',
+            ]
+        );
+
         $student = new Student();
         $student->first_name = $request->first_name;
         $student->last_name  = $request->last_name;
@@ -58,10 +92,22 @@ class StudentController extends Controller
         if($student->save())
         {
             $student_id = $student->student_id;
+
+            // Save student id in the given class
             Status::insert(['student_id' => $student_id, 'class_id' => $request->class_id]);
+
+            session()->flash('message', 'Student has been successfully registered!');
+
             return redirect()->route('goPayment', ['student_id' => $student_id]);
         }
     }
+
+    /**
+     * Get informations of students.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
 
     public function studentInfo(Request $request)
     {

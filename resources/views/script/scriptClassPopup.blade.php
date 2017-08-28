@@ -16,7 +16,7 @@
         showClassInfo();
     });
 
-    //Merge Common Rows Function
+    // Merge Common Rows
     function mergeCommonRows(table) {
 
         var firstColumnBrakes = [];
@@ -29,9 +29,11 @@
 
                 var jthis = $(this), content = jthis.text();
                 if(previous === content && content !== "" && $.inArray(index, firstColumnBrakes) === -1) {
+
                     jthis.addClass('hidden');
                     cellToExtend.attr("rowspan", (rowspan = rowspan + 1));
                 } else {
+
                     if(i === 1) firstColumnBrakes.push(index);
                     rowspan = 1;
                     previous = content;
@@ -49,12 +51,15 @@
         $(level).empty();
 
         $.get("{{ route('showLevel') }}", {program_id:program_id}, function (data) {
+
             $.each(data, function (i, lvl) {
+
                 $(level).append($("<option>", {
                     value : lvl.level_id,
                     text  : lvl.level
                 }));
             });
+
             showClassInfo();
         });
     });
