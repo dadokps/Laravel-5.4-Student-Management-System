@@ -267,4 +267,37 @@ class FeeController extends Controller
 
         return response($status);
     }
+
+    public function getFeeReport()
+    {
+        return view('fee.feeReport');
+    }
+
+    public function showFeeReport(Request $request)
+    {
+        $fees = $this->feeInfo()
+            ->select('users.name',
+                'students.student_id',
+                'students.first_name',
+                'students.last_name',
+                'fees.amount as school_fee',
+                'studentfees.amount as student_fee',
+                'studentfees.discount',
+                'transactions.transact_date',
+                'transactions.paid')
+            ->whereDate('transactions.transact_date', '>=', $request->from)
+            ->whereDate('transactions.transact_date', '<=', $request->to)
+            ->orderBy('students.student_id')
+            ->get();
+        return view('fee.feeList', compact('fees'));
+    }
+
+    public function feeInfo()
+    {
+        return Transaction::join('fees', 'fees.fee_id', '=', 'transactions.fee_id')
+            ->join('students', 'students.student_id', '=', 'transactions.student_id')
+            ->join('studentfees', 'studentfees.s_fee_id', '=', 'transactions.s_fee_id')
+            ->join('users', 'users.id', '=', 'transactions.user_id');
+    }
+
 }
